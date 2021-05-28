@@ -38,7 +38,7 @@
 
 ### HTTP Message 
 
-![Screen Shot 2021-05-29 at 2.44.59 AM](/Users/jeongminlee/Library/Application Support/typora-user-images/Screen Shot 2021-05-29 at 2.44.59 AM.png)
+<img width="966" alt="Screen Shot 2021-05-29 at 2 49 41 AM" src="https://user-images.githubusercontent.com/37537216/120023276-87881780-c028-11eb-9e79-607e41e01064.png">
 
 * method: GET, POST, PATCH 등 http verb
 * path: 요청하는 자원의 위치를 명시한 URI
