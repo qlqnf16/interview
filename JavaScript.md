@@ -383,6 +383,67 @@ class Person {
 
 
 
+## Event
 
+### Bubbling / Capturing / Delegation
+
+* **Event Bubbling**: 하위 요소에서 발생한 이벤트가 상위 요소로 전파되는 것
+
+* **Event Capturing**: 상위 요소에서 발생한 이벤트가 하위 요소로 전파되는 것
+
+  Bubbling / Capturing 을 방지하는 가장 간단한 방법은 `event.stopPropagation()` 을 사용하는 것
+
+  
+
+* **Event Delegation**: Event Bubbling을 이용한 기법으로, 하위 요소 각각에 이벤트를 달지 않고 상위 요소를 통해 제어하는 것
+
+  ```html
+  <ul id='itemList'>
+    <li>item1</li>
+    <li>item2</li>
+  </ul>
+  ```
+
+  각각의 리스트 아이템을 클릭할 때 이벤트가 발생하도록 하는 코드. 아래와 같이 리스트 아이템에 모두 이벤트리스너를 달아준다. 이 방법의 단점은 <u>DOM에 새로운 리스트 아이템이 추가될 경우, 추가된 엘레먼트에 대해 이벤트가 작동하지 않는다는 것</u>이다. 매번 엘레먼트가 추가될 때마다 이벤트 리스너를 달아주는 건 번거롭다.
+
+  ```js
+  const items = Document.querySelectorAll('li');
+  items.forEach(item => item.addEventListener('click', event => {
+  	console.log('clicked');
+  }));
+  ```
+
+  그래서 아래와 같이 수정할 수 있다. 상위 엘레먼트에만 이벤트 리스너를 달고, event bubbling을 이용해 하위 엘레먼트의 이벤트를 감지한다.
+
+  ```js
+  const itemList = Document.getElementById('itemList');
+  itemList.addEventListener('click', event => {
+    if (event.target.tagName === 'li') {
+      console.log('clicked');
+    }
+  });
+  ```
+
+
+
+### Throttling / Debouncing
+
+이벤트 핸들러가 많은 연산을 수행할 경우, 제약을 걸어 성능을 높이는 방법
+
+* 사용자가 창 크기 조절을 멈출 때까지 기다렸다가 resizing event를 사용하기 위해,
+* 사용자가 입력을 중지하기 전까지 검색창의  ajax 요청을 하지 않기 위해,
+* 스크롤 / 드래그 이벤트 시 좋은 성능을 보장하기 위해 사용한다.
+
+
+
+* **Event Throttling**: 마지막 함수가 호출된 후 일정 시간이 지나기 전에 다시 호출되지 않도록 하는 것
+
+* **Event Debouncing**: 연이어 호출되는 함수중 제일 마지막 또는 제일 처음 함수만 호출되도록 하는 것
+
+  스크롤 이벤트를 제어할 때, debounce를 사용하면 스크롤이 멈췄을 때만 이벤트가 발생하고, throttle을 사용하면 일정시간 간격으로 이벤트가 발생한다.
+
+
+
+## 
 
 ### 
