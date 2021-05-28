@@ -271,11 +271,118 @@ count.show();				// 1
 
 ## 메모리관리
 
+JS는 객체가 생성될 때 자동으로 메모리를 할당하고, 쓸모가 없어질 때 메모리를 해제한다. 이를 ==가비지 컬렉션(Garbage Collection)==이라 한다.
+
+
+
+### 메모리의 생성주기
+
+1. 필요시 할당
+2. 사용 (읽기, 쓰기)
+3. 필요 없어지면 해제 
+
+
+
+### GC 알고리즘
+
+메모리는 더이상 필요하지 않으면 해제된다. 메모리의 값이 필요하지 않다는 것을 판단하는 것이 GC의 알고리즘
+
+* reference-counting: 참조를 이용. **어떤 다른 오브젝트도 참조하지 않는 오브젝트**를 제거
+* **mark-and-sweep**: reference-counting의 순환참조 문제를 해결한 방법. **닿을 수 없는 오브젝트**를 제거
+
+
+
+### JS에서 메모리 누수가 발생할 수 있는 경우
+
+* 전역변수
+* Closure: 일반적으로 lexical environment는 함수 실행이 끝나는 시점에 할당이 해제된다. 하지만 클로저를 사용하면 계속 함수의 환경에 접근할 수 있어야 하기 때문에 메모리가 해제되지 않는다
+* DOM 외부에서 참조: 부모 Element부터 통째로 DOM에서 삭제돼도 자식 Element를 참조하는 JS코드가 있다면 메모리에서 해제되지 않는다.
+
+### 
+
 
 
 ## This
 
+JS는 함수의 실행을 바탕으로 동작하는 언어. 함수가 실행될 때마다 각 함수에 대해 실행컨텍스트가 생김. 컨텍스트가 생성될 때 변수객체, Scope Chain을 생성하고 **this binding**이 이루어진다.
+
+1. JS에서 this는 기본적으로 **글로벌 객체**. (브라우저에서는 `window`, node에서는 `global`)
+2. 객체 내부의 메소드를 호출할 경우 this는 **객체**를 가리킨다.
+3. 생성자 함수를 호출할 경우 this는 **인스턴스**를 가리킨다.
+4. 이벤트리스너의 콜백함수에서 this는 **이벤트리스너에 바인딩된 element**이다.
+5. `.apply`, `.call`, `.bind` 를 이용해 호출할경우 this는 **인자로 넘겨주는 객체**를 가리킨다. (명시적 바인딩)
 
 
-## Class & Prototype
 
+### Arrow Function의 this
+
+일반함수의 this는 함수를 호출하는 방식에 따라 가리키는 객체가 달라졌다. 반면 화살표 함수의 this 는 **언제나 상위 스코프의 this**를 가리키며, 이를 ==lexical this==라 한다.
+
+
+
+## Prototype & Class
+
+### Prototype
+
+JS에서 같은 원형으로 생긴 객체가 공통으로 참조하는 공간. JS의 객체는 모두 부모 객체를 가지고, **부모 객체의 프로퍼티와 메소드를 상속**받을 수 있다. 이 때 부모 객체를 Prototype 이라 한다.
+
+```js
+function Person() { };
+
+Person.prototype.eyes = 2;
+Person.prototype.nose = 1;
+
+const lee = new Person();
+const kim = new Person();
+console.log(lee.eyes);			// 2
+console.log(kim.eyes);			// 2
+```
+
+
+
+객체를 생성하는 **방법**에 따라 그 객체의 Prototype이 달라진다.
+
+* 객체 리터럴로 생성 or `new Object()` 로 생성: Object.prototype
+
+* 생성자 함수로 생성: [Function_Name].prototype
+
+  ```js
+  function Person() {}
+  const lee = new Person();				// lee의 Prototype: Person.prototype
+  ```
+
+
+
+**Prototype Chain**
+
+객체는 일단 자기자신으로부터 프로퍼티나 메소드를 찾고, 찾기를 실패하면 Prototype 을 타고 올라가 부모에서 찾는다. 이를 Prototype Chain이라 하고, 이 체인은 가장 최상단 Prototype인 `Object.prototype` 에 도달할 때까지 이어진다.
+
+
+
+### Class
+
+다른 언어에 존재하는 클래스 기능을 구현한 것으로, ES6에 추가됨.
+
+클래스는 함수의 일종으로, `constructor()` 내부의 내용이 함수의 본문으로 사용된다. 클래스 내부에 정의한 메소드는 prototype에 추가된다.
+
+상속 및 메소드의 오버라이딩이 가능하다.
+
+```js
+class Person {
+    constructor(name, age) {
+        this.name = name,
+        this.age = age
+    }
+    sayHi() {
+        console.log('Hi'+this.name)
+    }
+}
+```
+
+<img src="/Users/jeongminlee/Library/Application Support/typora-user-images/Screen Shot 2021-05-29 at 12.30.51 AM.png" alt="Screen Shot 2021-05-29 at 12.30.51 AM" style="zoom:150%;" />
+
+
+
+
+
+### 
