@@ -15,83 +15,84 @@ SPA(Single Page Application) 개발을 위한 UI 라이브러리.
 
 ### 컴포넌트 마운트
 
-**constructor(props)**
+* **constructor(props)**
 
-컴포넌트 생성자 함수. 초기 데이터값을 설정. state에 값을 직접 대입할 수 있는 유일한 시점 
+  컴포넌트 생성자 함수. 초기 데이터값을 설정. state에 값을 직접 대입할 수 있는 유일한 시점 
 
-**getDerivedStateFromProps(props, state)**
+* **getDerivedStateFromProps(props, state)**
 
-상위컴포넌트에서 받아온 props를 state에 새로 대입할 필요가 있을  때 사용.  state 갱신을 위한 객체를 반환하거나, null을 반환해서 아무것도 갱신하지 않을 수 있다.
+  상위컴포넌트에서 받아온 props를 state에 새로 대입할 필요가 있을  때 사용.  state 갱신을 위한 객체를 반환하거나, null을 반환해서 아무것도 갱신하지 않을 수 있다.
+  
+  ```js
+  static getDerivedStateFromProps(props, state) {
+  	if (props.value !== state.value) {
+  		return { value: props.value };
+  	}
+  	return null;
+  }
+  ```
 
-```js
-static getDerivedStateFromProps(props, state) {
-	if (props.value !== state.value) {
-		return { value: props.value };
-	}
-	return null;
-}
-```
 
-**render()**
+* **render()**
 
-React Element를 생성하는 함수. 여기에서 리턴된 데이터를 이용해 DOM을 업데이트한다.
+  React Element를 생성하는 함수. 여기에서 리턴된 데이터를 이용해 DOM을 업데이트한다.
 
-**componentDidMount()**
+* **componentDidMount()**
 
-DOM 요소들이 모두 그려진 뒤에 호출. 주로 API요청, 이벤트리스너 삽입, 외부 라이브러리 연동 등이 이루어진다.
+  DOM 요소들이 모두 그려진 뒤에 호출. 주로 API요청, 이벤트리스너 삽입, 외부 라이브러리 연동 등이 이루어진다.
 
 
 
 ### 컴포넌트 업데이트
 
-**getDerivedStateFromProps()**
+* **getDerivedStateFromProps()**
 
-**shouldComponentUpdate(nextProps, nextState)**
+* **shouldComponentUpdate(nextProps, nextState)**
 
-현재 props, state와 비교를 통해 특정 상황에만 컴포넌트가 업데이트되도록 한다. `true`/`false`를 반환하며, `true`면 컴포넌트를 업데이트한다.
+  현재 props, state와 비교를 통해 특정 상황에만 컴포넌트가 업데이트되도록 한다. `true`/`false`를 반환하며, `true`면 컴포넌트를 업데이트한다.
 
-```js
-shouldComponentUpdate(nextProps, nextState) {
-	return nextProps.value !== this.props.value;
-}
-```
+  ```js
+  shouldComponentUpdate(nextProps, nextState) {
+  	return nextProps.value !== this.props.value;
+  }
+  ```
 
-**render()**
+* **render()**
 
-**getSnapshotBeforeUpdate(prevProps, prevState)**
+* **getSnapshotBeforeUpdate(prevProps, prevState)**
 
-컴포넌트가 업데이트 되기 전에 상태정보를 저장할 수 있다. 여기에서 리턴된 값은 `componentDidMount`의 세번째 인자로 받아서 사용가능하다. 스크롤 위치, 인풋 포커스 등을 기억할 때 주로 사용된다.
+  컴포넌트가 업데이트 되기 전에 상태정보를 저장할 수 있다. 여기에서 리턴된 값은 `componentDidMount`의 세번째 인자로 받아서 사용가능하다. 스크롤 위치, 인풋 포커스 등을 기억할 때 주로 사용된다.
 
-```js
-getSnapshotBeforeUpdate(prevProps, prevState) {
-  // 스크롤 위치 기억 로직
-  return { scrollTop, scrollHeight };
-}
-```
+  ```js
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    // 스크롤 위치 기억 로직
+    return { scrollTop, scrollHeight };
+  }
+  ```
 
-**componentDidUpdate(prevProps, prevState, snapshot)**
+* **componentDidUpdate(prevProps, prevState, snapshot)**
 
-컴포넌트의 상태가 업데이트되어 DOM이 새로 그려진 뒤에 호출.
+  컴포넌트의 상태가 업데이트되어 DOM이 새로 그려진 뒤에 호출.
 
 
 
 ### 컴포넌트 마운트 해제
 
-**componentWillUnmount**
+* **componentWillUnmount**
 
-컴포넌트가 완전히 DOM 트리, 화면에서 사라질 때 호출. 주로 타이머 해제, 이벤트리스너 해제 등의 작업이 일어난다.
+  컴포넌트가 완전히 DOM 트리, 화면에서 사라질 때 호출. 주로 타이머 해제, 이벤트리스너 해제 등의 작업이 일어난다.
 
 
 
 ### 에러 처리
 
-**getDerivedStateFromError(error)**
+* **getDerivedStateFromError(error)**
 
-컴포넌트에서 에러가 발생할 때, Render Phase에서 호출. 에러 정보를 state에 저장해 화면에 나타내는 용도
+  컴포넌트에서 에러가 발생할 때, Render Phase에서 호출. 에러 정보를 state에 저장해 화면에 나타내는 용도
 
-**componentDidCatch(error, info)**
+* **componentDidCatch(error, info)**
 
-컴포넌트에서 에러가 발생할 때, Commit Phase에서 호출. 에러정보를 서버로 전송하는 용도.
+  컴포넌트에서 에러가 발생할 때, Commit Phase에서 호출. 에러정보를 서버로 전송하는 용도.
 
 
 
@@ -126,7 +127,7 @@ const [age, setAge] = useState(27);
 * return 되는 값은 componentWillUnmount와 같은 시점에 호출된다. 
 * 두번째 인자로 배열을 넘겨주면, 그 배열의 값이 변경될때만 useEffect가 작동한다. 만약 빈배열`[]`을 넘겨주면, 초기 마운트 때만 단 한번 호출된다.
 
-```js
+​```js
 const [count, setCount] = useState(0);
 useEffect(() => {
   document.title = `${count}번 업데이트 됨`;
