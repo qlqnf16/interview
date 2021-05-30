@@ -126,7 +126,7 @@ const [age, setAge] = useState(27);
 * return 되는 값은 componentWillUnmount와 같은 시점에 호출된다. 
 * 두번째 인자로 배열을 넘겨주면, 그 배열의 값이 변경될때만 useEffect가 작동한다. 만약 빈배열`[]`을 넘겨주면, 초기 마운트 때만 단 한번 호출된다.
 
-​```js
+```js
 const [count, setCount] = useState(0);
 useEffect(() => {
   document.title = `${count}번 업데이트 됨`;
@@ -134,6 +134,7 @@ useEffect(() => {
     document.title = 'Reset';
   }
 }, [count])
+
 ```
 
 
