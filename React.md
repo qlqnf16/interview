@@ -9,8 +9,7 @@ SPA(Single Page Application) 개발을 위한 UI 라이브러리.
 
 ## Life Cycle
 
-![Screen Shot 2021-05-30 at 9.07.48 PM](/Users/jeongminlee/Library/Application Support/typora-user-images/Screen Shot 2021-05-30 at 9.07.48 PM.png)
-
+<img width="1246" alt="Screen Shot 2021-05-30 at 9 55 39 PM" src="https://user-images.githubusercontent.com/37537216/120104922-c7b6d980-c191-11eb-8948-8e719bb4ecd9.png">
 
 
 ### 컴포넌트 마운트
